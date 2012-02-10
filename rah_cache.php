@@ -21,8 +21,8 @@
 
 	if(@txpinterface == 'public') {
 		register_callback(array('rah_cache', 'store'), 'textpattern_end');
+		register_callback(array('rah_cache', 'update_lastmod'), 'textpattern_end');
 	}
-	
 	elseif(@txpinterface == 'admin') {
 		register_callback(array('rah_cache', 'update_lastmod'), 'admin_side', 'body_end');
 	}
