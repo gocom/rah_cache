@@ -33,9 +33,12 @@
 			$filename = $file . '.gz';
 		}
 		
+		$modified = filemtime($filename);
+		
 		if(
 			file_exists($filename) && 
-			filemtime($filename) > strtotime('-1 month')
+			$modified > strtotime('-1 month') && 
+			$modified >= (int) @file_get_contents($rah_cache['path'] . '/_lastmod.rah')
 		) {
 			header('Content-type: text/html; charset=utf-8');
 			

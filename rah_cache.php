@@ -22,6 +22,10 @@
 	if(@txpinterface == 'public') {
 		register_callback(array('rah_cache', 'store'), 'textpattern_end');
 	}
+	
+	elseif(@txpinterface == 'admin') {
+		register_callback(array('rah_cache', 'update_lastmod'), 'admin_side', 'body_end');
+	}
 
 /**
  * Cache handler
@@ -101,6 +105,20 @@ class rah_cache {
 		}
 
 		callback_event('rah_cache.created');
+	}
+	
+	/**
+	 * Update lastmod
+	 */
+
+	static public function update_lastmod() {
+		global $prefs, $rah_cache;
+		
+		if(!empty($rah_cache['path'])) {
+			file_put_contents(
+				$rah_cache['path'] . '/_lastmod.rah', @strtotime($prefs['lastmod'])
+			);
+		}
 	}
 
 	/**
