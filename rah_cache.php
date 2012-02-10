@@ -139,6 +139,8 @@ class rah_cache {
 					return false;
 				}
 				
+				$f = $rah_cache['path'] . '/' . $f;
+				
 				unlink($f . '.rah');
 				unlink($f . '.rah.gz');
 			}
@@ -146,12 +148,11 @@ class rah_cache {
 			return true;
 		}
 		
-		foreach(glob( $rah_cache['path'] . '/' . '*', GLOB_NOSORT) as $file) {
+		foreach(glob($rah_cache['path'].'/*', GLOB_NOSORT) as $file) {
 			if(is_file($file) && strlen(basename($file)) == 32) {
 				unlink($file);
 			}
 		}
-		
 	}
 }
 ?>
