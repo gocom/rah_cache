@@ -1,0 +1,5 @@
+h1. rah_cache
+
+p. Rah_cache is a very simple, experimental caching plugin for "Textpattern CMS":http://textpattern.com. It caches Texpattern's dynamic pages as flat files.
+
+p. As of now the plugin is very simple, and is intended as a building block rather than full caching suite. Among many missing features, it doesn't do any cache management, or flushing. It doesn't check if site's content is newer than cache. Instead, it just writes pages to cache, and serves pages. Rest is up to the two callbacks the plugin comes with.
