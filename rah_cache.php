@@ -116,7 +116,7 @@ class rah_cache {
 		
 		if(!empty($rah_cache['path'])) {
 			file_put_contents(
-				$rah_cache['path'] . '/_lastmod.rah', get_pref('lastmod', time(), true)
+				$rah_cache['path'] . '/_lastmod.rah', @strtotime(get_pref('lastmod', 'now', true))
 			);
 		}
 	}
