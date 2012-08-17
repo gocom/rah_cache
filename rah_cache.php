@@ -30,9 +30,9 @@ class rah_cache {
 	 */
 	
 	public function __construct() {
+		global $event;
 		register_callback(array($this, 'store'), 'textpattern_end');
-		register_callback(array($this, 'update_lastmod'), 'textpattern_end');
-		register_callback(array($this, 'update_lastmod'), 'admin_side', 'body_end');
+		register_callback(array($this, 'update_lastmod'), $event ? $event : 'textpattern_end');
 	}
 
 	/**
