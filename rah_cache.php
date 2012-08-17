@@ -112,11 +112,11 @@ class rah_cache {
 	 */
 
 	public function update_lastmod() {
-		global $prefs, $rah_cache;
+		global $rah_cache;
 		
 		if(!empty($rah_cache['path'])) {
 			file_put_contents(
-				$rah_cache['path'] . '/_lastmod.rah', @strtotime($prefs['lastmod'])
+				$rah_cache['path'] . '/_lastmod.rah', get_pref('lastmod', time(), true)
 			);
 		}
 	}
