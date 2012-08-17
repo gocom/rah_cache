@@ -19,21 +19,21 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-	if(@txpinterface == 'public') {
-		register_callback(array('rah_cache', 'store'), 'textpattern_end');
-		register_callback(array('rah_cache', 'update_lastmod'), 'textpattern_end');
-	}
-	elseif(@txpinterface == 'admin') {
-		register_callback(array('rah_cache', 'update_lastmod'), 'admin_side', 'body_end');
-	}
-
-/**
- * Cache handler
- */
+	new rah_cache();
 
 class rah_cache {
 
 	static public $data;
+	
+	/**
+	 * Constructor
+	 */
+	
+	public function __construct() {
+		register_callback(array($this, 'store'), 'textpattern_end');
+		register_callback(array($this, 'update_lastmod'), 'textpattern_end');
+		register_callback(array($this, 'update_lastmod'), 'admin_side', 'body_end');
+	}
 
 	/**
 	 * Sets page data
@@ -52,7 +52,7 @@ class rah_cache {
 	 * Writes the page to cache directory
 	 */
 	
-	static public function store() {
+	public function store() {
 		
 		global $prefs, $rah_cache;
 		
@@ -111,7 +111,7 @@ class rah_cache {
 	 * Update lastmod
 	 */
 
-	static public function update_lastmod() {
+	public function update_lastmod() {
 		global $prefs, $rah_cache;
 		
 		if(!empty($rah_cache['path'])) {
