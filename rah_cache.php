@@ -133,19 +133,11 @@ class rah_cache {
 		}
 		
 		if(function_exists('gzcompress')) {
-			
 			$size = strlen(self::$data);
 			self::$data = gzcompress(self::$data, 9);
 			self::$data = substr(self::$data, 0, $size);
 			self::$data = "\x1f\x8b\x08\x00\x00\x00\x00\x00" . self::$data;
-			
-			if(
-				file_put_contents(
-					$rah_cache['file'].'.gz', self::$data
-				) == false
-			) {
-				return;
-			}
+			file_put_contents($rah_cache['file'].'.gz', self::$data);
 		}
 
 		callback_event('rah_cache.created');
