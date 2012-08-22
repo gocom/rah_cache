@@ -20,11 +20,6 @@
 		}
 		
 		$request_uri = trim($_SERVER['REQUEST_URI'], '/');
-		
-		if($request_uri === false || strpos($request_uri, '?') !== false) {
-			return;
-		}
-
 		$md5 = md5($request_uri);
 		$filename = $file = $rah_cache['path'] . '/' . $md5 . '.rah';
 		$encoding = rah_cache_encoding();
