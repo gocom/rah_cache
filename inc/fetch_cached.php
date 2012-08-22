@@ -32,7 +32,7 @@
 		
 		if(
 			file_exists($filename) && 
-			$modified > strtotime('-1 month') && 
+			$modified > time()-2592000 && 
 			$modified >= (int) @file_get_contents($rah_cache['path'] . '/_lastmod.rah')
 		) {
 			header('Content-type: text/html; charset=utf-8');
