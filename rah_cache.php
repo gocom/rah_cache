@@ -7,12 +7,6 @@
  * @date 2012-
  * @license GNU GPLv2
  * @link https://github.com/gocom/rah_cache
- *
- * The plugin caches Textpattern's dynamic pages as
- * flat files.
- *
- * Requires Textpattern v4.4.1 or newer, and PHP5 or newer.
- * Also requires inc/fetch_cached.php and config/config.php.
  * 
  * Copyright (C) 2012 Jukka Svahn <http://rahforum.biz>
  * Licensed under GNU Genral Public License version 2
@@ -20,7 +14,7 @@
  */
 
 	new rah_cache();
-	
+
 /**
  * A tag to control caching on a page basis
  */
