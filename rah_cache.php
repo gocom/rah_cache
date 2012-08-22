@@ -20,6 +20,27 @@
  */
 
 	new rah_cache();
+	
+/**
+ * A tag to control caching on a page basis
+ */
+
+	function rah_cache($atts) {
+		
+		global $rah_cache;
+		
+		extract(lAtts(array(
+			'ignore' => 0
+		), $atts));
+		
+		if($ignore) {
+			$rah_cache['file'] = null;
+		}
+	}
+
+/**
+ * Cache handler
+ */
 
 class rah_cache {
 
