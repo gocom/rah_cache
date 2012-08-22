@@ -28,20 +28,22 @@
 			$filename = $file . '.gz';
 		}
 		
-		$modified = filemtime($filename);
+		if(file_exists($filename)) {
 		
-		if(
-			file_exists($filename) && 
-			$modified > time()-2592000 && 
-			$modified >= (int) @file_get_contents($rah_cache['path'] . '/_lastmod.rah')
-		) {
-			header('Content-type: text/html; charset=utf-8');
-			
-			if($encoding) {
-				header('Content-Encoding: '.$encoding);
+			$modified = filemtime($filename);
+		
+			if(
+				$modified > time()-2592000 && 
+				$modified >= (int) @file_get_contents($rah_cache['path'] . '/_lastmod.rah')
+			) {
+				header('Content-type: text/html; charset=utf-8');
+				
+				if($encoding) {
+					header('Content-Encoding: '.$encoding);
+				}
+				
+				die(file_get_contents($filename));
 			}
-			
-			die(file_get_contents($filename));
 		}
 		
 		if(
