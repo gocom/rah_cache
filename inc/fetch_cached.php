@@ -15,15 +15,17 @@
 		global $rah_cache;
 		$rah_cache = $opt;
 
-		if((defined('txpinterface') && txpinterface != 'public') || !empty($_POST))
+		if(txpinterface != 'public' || !empty($_POST)) {
 			return;
+		}
 		
 		$request_uri = 
 			isset($_SERVER['REQUEST_URI']) ? 
 				trim($_SERVER['REQUEST_URI'], '/') : false;
 		
-		if($request_uri === false || strpos($request_uri, '?') !== false)
+		if($request_uri === false || strpos($request_uri, '?') !== false) {
 			return;
+		}
 
 		$md5 = md5($request_uri);
 		$filename = $file = $rah_cache['path'] . '/' . $md5 . '.rah';
@@ -53,8 +55,9 @@
 			!file_exists($rah_cache['path']) || 
 			!is_dir($rah_cache['path']) || 
 			!is_writeable($rah_cache['path'])
-		)
+		) {
 			return;
+		}
 		
 		$rah_cache['file'] = $file;
 		$rah_cache['request_uri'] = $request_uri;
@@ -68,16 +71,17 @@
 
 	function rah_cache_encoding() {
 	
-		if(!isset($_SERVER["HTTP_ACCEPT_ENCODING"]) || headers_sent())
+		if(!isset($_SERVER['HTTP_ACCEPT_ENCODING']) || headers_sent()) {
 			return false;
+		}
 	
-		$accept_encoding = $_SERVER["HTTP_ACCEPT_ENCODING"];
+		$accept_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
 		
-		if(strpos($accept_encoding, 'x-gzip') !== false){
+		if(strpos($accept_encoding, 'x-gzip') !== false) {
 			return 'x-gzip';
 		}
 		
-		if(strpos($accept_encoding, 'gzip') !== false){
+		if(strpos($accept_encoding, 'gzip') !== false) {
 			return 'gzip';
 		}
 		
