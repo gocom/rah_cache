@@ -41,6 +41,12 @@ class rah_cache {
 	static public $data;
 	
 	/**
+	 * @var array Stores sent HTTP response headers
+	 */
+	
+	protected $headers = array();
+	
+	/**
 	 * Constructor
 	 */
 	
@@ -61,6 +67,24 @@ class rah_cache {
 		}
 		
 		return self::$data;
+	}
+	
+	/**
+	 * Gets sent response headers
+	 */
+	
+	protected function get_headers() {
+		
+		if(!function_exists('header_list') || !header_list()) {
+			return;
+		}
+		
+		foreach((array) header_list() as $header) {
+			if(strpos($header, ':')) {
+				$header = explode(':', strtolower($header), 2);
+				$this->headers[trim($header[0])] = trim($header[1]);
+			}
+		}
 	}
 
 	/**
@@ -83,14 +107,19 @@ class rah_cache {
 			}
 		}
 		
+		$this->get_headers();
+		
+		if(
+			isset($this->headers['content-type']) &&
+			strpos($this->headers['content-type'], 'text/html') === false
+		) {
+			return;
+		}
+		
 		self::$data = ob_get_contents();
 		
-		/*
-			Allow plugin to modify stored content
-		*/
-		
 		callback_event('rah_cache.store');
-				
+		
 		if(!self::$data) {
 			return;
 		}
