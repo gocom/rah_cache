@@ -15,7 +15,7 @@
 		global $rah_cache;
 		$rah_cache = $opt;
 
-		if(txpinterface != 'public' || !empty($_POST)) {
+		if(txpinterface != 'public' || !empty($_POST) || !empty($_GET)) {
 			return;
 		}
 		
