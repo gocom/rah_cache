@@ -19,9 +19,7 @@
 			return;
 		}
 		
-		$request_uri = 
-			isset($_SERVER['REQUEST_URI']) ? 
-				trim($_SERVER['REQUEST_URI'], '/') : false;
+		$request_uri = trim($_SERVER['REQUEST_URI'], '/');
 		
 		if($request_uri === false || strpos($request_uri, '?') !== false) {
 			return;
