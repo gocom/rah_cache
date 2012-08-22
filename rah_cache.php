@@ -124,13 +124,7 @@ class rah_cache {
 			return;
 		}
 		
-		if(
-			file_put_contents(
-				$rah_cache['file'], self::$data
-			) == false
-		) {
-			return;
-		}
+		file_put_contents($rah_cache['file'], self::$data);
 		
 		if(function_exists('gzcompress')) {
 			$size = strlen(self::$data);
