@@ -1,0 +1,3 @@
+h1. Minify module for rah_cache
+
+p. This is a minify module for rah_cache, a full-page caching solution for Textpattern CMS.
