@@ -3,11 +3,10 @@
 /**
  * Gets the page from cache and sets options. This file should
  * be included and used via Textpattern's config.php file.
- * @param array $opt
- * @return nothing
- * <code>
- *		rah_cache_init(array $options);
- * </code>
+ *
+ * @param   array $opt
+ * @return  null
+ * @example rah_cache_init(array $options);
  */
 
 	function rah_cache_init($opt) {
