@@ -40,14 +40,6 @@
 class rah_cache
 {
     /**
-     * The page data.
-     *
-     * @var string
-     */
-
-    static public $data;
-
-    /**
      * Stores sent HTTP response headers.
      *
      * @var array 
@@ -64,22 +56,6 @@ class rah_cache
         global $event;
         register_callback(array($this, 'store'), 'textpattern_end');
         register_callback(array($this, 'update_lastmod'), $event ? $event : 'textpattern_end');
-    }
-
-    /**
-     * Sets page data.
-     *
-     * @param $name
-     */
-
-    static public function data($data = null)
-    {
-        if ($data !== null)
-        {
-            self::$data = $data;
-        }
-
-        return self::$data;
     }
 
     /**
@@ -137,22 +113,25 @@ class rah_cache
             return;
         }
 
-        self::$data = ob_get_contents();
+        $page = ob_get_contents();
 
-        callback_event('rah_cache.store');
+        if (($r = callback_event('rah_cache.store', '', 0, array('contents' => $page))) !== '')
+        {
+            $page = $r;
+        }
 
-        if (!self::$data)
+        if (!$page)
         {
             return;
         }
 
-        file_put_contents($rah_cache['file'], self::$data);
+        file_put_contents($rah_cache['file'], $page);
 
         if (function_exists('gzcompress'))
         {
-            $size = strlen(self::$data);
-            $crc = crc32(self::$data);
-            $data = gzcompress(self::$data, 6);
+            $size = strlen($page);
+            $crc = crc32($page);
+            $data = gzcompress($page, 6);
             $data = substr($data, 0, strlen($data)-4);
             $data = "\x1f\x8b\x08\x00\x00\x00\x00\x00".$data;
             $data .= pack('V', $crc);
