@@ -157,43 +157,6 @@ class rah_cache
             );
         }
     }
-
-    /**
-     * Flushes the cache.
-     *
-     * @param  string|array $file
-     * @return bool
-     */
-
-    static public function flush($file)
-    {
-        global $rah_cache;
-
-        if ($file !== null)
-        {
-            foreach ((array) $file as $f)
-            {
-                if (!preg_match('#[0-9a-f]{32}$#i', $f))
-                {
-                    return false;
-                }
-
-                $f = $rah_cache['path'] . '/' . $f;
-                unlink($f . '.rah');
-                unlink($f . '.rah.gz');
-            }
-
-            return true;
-        }
-
-        foreach ((array) glob($rah_cache['path'].'/*', GLOB_NOSORT) as $file)
-        {
-            if (is_file($file) && strlen(basename($file)) == 32)
-            {
-                unlink($file);
-            }
-        }
-    }
 }
 
 new rah_cache();
