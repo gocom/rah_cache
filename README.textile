@@ -14,7 +14,7 @@ h2. Configuration
 
 p. Configuration happens through your config.php. Include following at the end of the file:
 
-bc.. include txpath . '/../../vendor/rah/rah_cache/inc/Handler.php';
+bc.. include txpath . '/../../vendor/rah/rah_cache/src/Rah/Cache/Handler.php';
 
 new Rah_Cache_Handler(
 	array(
