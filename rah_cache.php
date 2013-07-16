@@ -19,19 +19,19 @@
  * @return string
  */
 
-    function rah_cache($atts)
+function rah_cache($atts)
+{
+    global $rah_cache;
+
+    extract(lAtts(array(
+        'ignore' => 0,
+    ), $atts));
+
+    if ($ignore)
     {
-        global $rah_cache;
-
-        extract(lAtts(array(
-            'ignore' => 0,
-        ), $atts));
-
-        if ($ignore)
-        {
-            $rah_cache['file'] = null;
-        }
+        $rah_cache['file'] = null;
     }
+}
 
 /**
  * Cache handler.
