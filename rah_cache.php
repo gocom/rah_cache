@@ -85,9 +85,9 @@ class rah_cache
 
     public function store()
     {   
-        global $prefs, $rah_cache;
+        global $rah_cache;
 
-        if (empty($rah_cache['file']) || $prefs['production_status'] != 'live')
+        if (empty($rah_cache['file']) || get_pref('production_status') != 'live')
         {
             return;
         }
