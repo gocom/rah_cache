@@ -14,9 +14,9 @@ h2. Configuration
 
 p. Configuration happens through your config.php. Include following at the end of the file:
 
-bc.. include txpath . '/../../vendor/rah/rah_cache/inc/fetch_cached.php';
+bc.. include txpath . '/../../vendor/rah/rah_cache/inc/Handler.php';
 
-rah_cache_init(
+new Rah_Cache_Handler(
 	array(
 		'path' => txpath . '/../../cache',
 		'skip' => array('file_download/')

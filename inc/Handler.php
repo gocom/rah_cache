@@ -1,15 +1,27 @@
 <?php
 
 /**
+ * Cache handler.
+ *
  * Gets the page from cache and sets options. This file should
  * be included and used via Textpattern's config.php file.
  *
- * @param   array $opt
- * @return  null
- * @example rah_cache_init(array $options);
+ * @example
+ * new Rah_Cache_Handler(array(
+ *     'path' => './cache',
+ *     'skip' => array('file_download/')
+ * ));
  */
 
-    function rah_cache_init($opt)
+class Rah_Cache_Handler
+{
+    /**
+     * Constructor.
+     *
+     * @param array $opt Options
+     */
+
+    public function __construct($opt)
     {
         global $rah_cache;
         $rah_cache = $opt;
@@ -22,7 +34,7 @@
         $request_uri = trim($_SERVER['REQUEST_URI'], '/');
         $md5 = md5($request_uri);
         $filename = $file = $rah_cache['path'] . '/' . $md5 . '.rah';
-        $encoding = rah_cache_encoding();
+        $encoding = $this->encoding();
 
         if ($encoding)
         {
@@ -63,13 +75,13 @@
         $rah_cache['cache_key'] = $md5;
     }
 
-/**
- * Check accepted encoding headers.
- *
- * @return bool
- */
+    /**
+     * Check accepted encoding headers.
+     *
+     * @return bool
+     */
 
-    function rah_cache_encoding()
+    public function encoding()
     {
         if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) || headers_sent())
         {
@@ -90,3 +102,4 @@
 
         return false;
     }
+}
