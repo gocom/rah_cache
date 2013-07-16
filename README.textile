@@ -10,6 +10,19 @@ p. Using "Composer":http://getcomposer.org:
 
 bc. $ composer.phar require rah/rah_cache
 
+h2. Configuration
+
+p. Configuration happens through your config.php. Include following at the end of the file:
+
+bc.. include txpath . '/../../vendor/rah/rah_cache/inc/fetch_cached.php';
+
+rah_cache_init(
+	array(
+		'path' => txpath . '/../../cache',
+		'skip' => array('file_download/')
+	)
+);
+
 h2. Changelog
 
 h3. Version 0.1.0 - upcoming
