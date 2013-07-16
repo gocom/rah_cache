@@ -1,0 +1,24 @@
+{
+    "name": "rah/rah_cache",
+    "description": "Flat full-page caching plugin for Textpattern CMS",
+    "keywords": ["textpattern", "plugin", "flat", "page", "cache", "speed", "performance"],
+    "homepage": "https://github.com/gocom/rah_cache",
+    "license": "GPL-2.0",
+    "type": "textpattern-plugin",
+    "authors": [
+        {
+            "name": "Jukka Svahn",
+            "homepage": "http://rahforum.biz",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/gocom/rah_cache/issues",
+        "source": "https://github.com/gocom/rah_cache"
+    },
+    "require": {
+        "php": ">=5.2.0",
+        "textpattern/lock": ">=4.5.0,<4.7.0",
+        "textpattern/installer": "*"
+    }
+}
