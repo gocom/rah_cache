@@ -67,7 +67,7 @@ class Rah_Cache
             $this->request =  Rah_Cache_Handler::$request;
             register_callback(array($this, 'store'), 'textpattern_end');
             register_callback(array($this, 'update_lastmod'), $event ? $event : 'textpattern_end');
-            Textpattern_Tag_Registry:register(array($this, 'controller'), 'rah_cache');
+            Textpattern_Tag_Registry::register(array($this, 'controller'), 'rah_cache');
         }
     }
 
