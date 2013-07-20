@@ -154,17 +154,14 @@ class Rah_Cache
 
         file_put_contents($this->request->file, $page);
 
-        if (function_exists('gzcompress'))
-        {
-            $size = strlen($page);
-            $crc = crc32($page);
-            $data = gzcompress($page, 6);
-            $data = substr($data, 0, strlen($data)-4);
-            $data = "\x1f\x8b\x08\x00\x00\x00\x00\x00".$data;
-            $data .= pack('V', $crc);
-            $data .= pack('V', $size);
-            file_put_contents($this->request->file.'.gz', $data);
-        }
+        $size = strlen($page);
+        $crc = crc32($page);
+        $data = gzcompress($page, 6);
+        $data = substr($data, 0, strlen($data)-4);
+        $data = "\x1f\x8b\x08\x00\x00\x00\x00\x00".$data;
+        $data .= pack('V', $crc);
+        $data .= pack('V', $size);
+        file_put_contents($this->request->file.'.gz', $data);
 
         callback_event('rah_cache.created');
     }
