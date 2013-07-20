@@ -175,12 +175,10 @@ class Rah_Cache
 
     public function update_lastmod()
     {
-        global $rah_cache;
-
-        if (!empty($rah_cache['path']))
+        if ($this->config->directory)
         {
             file_put_contents(
-                $rah_cache['path'] . '/_lastmod.rah', @strtotime(get_pref('lastmod', 'now', true))
+                $this->config->directory . '/_lastmod.rah', @strtotime(get_pref('lastmod', 'now', true))
             );
         }
     }
