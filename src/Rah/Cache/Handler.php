@@ -24,8 +24,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-include_once dirname(__FILE__).'/Config.php';
-
 /**
  * Cache handler.
  *
@@ -124,8 +122,6 @@ class Rah_Cache_Handler
             return;
         }
 
-        include_once './Request.php';
-
         self::$request = new Rah_Cache_Request();
         self::$request->file = $file;
         self::$request->uri = $request_uri;
@@ -159,4 +155,82 @@ class Rah_Cache_Handler
 
         return false;
     }
+}
+
+/**
+ * Configuration options.
+ */
+
+class Rah_Cache_Config
+{
+    /**
+     * Path to the cache directory.
+     *
+     * @var string
+     */
+
+    public $directory = './../cache';
+
+    /**
+     * An array of skipped paths.
+     *
+     * @var array
+     */
+
+    public $skipPaths = array('file_download/');
+
+    /**
+     * An array of cookies that disable caching.
+     *
+     * @var array
+     */
+
+    public $skipCookies = array('txp_login_public');
+
+    /**
+     * An array of skip query strings.
+     *
+     * @var array
+     */
+
+    public $skipParams = array('');
+
+    /**
+     * Whether cache requests with a HTTP query string
+     *
+     * @var bool
+     */
+
+    public $queryString = false;
+}
+
+/**
+ * The request.
+ */
+
+class Rah_Cache_Request
+{
+    /**
+     * The cache item filename.
+     *
+     * @var string
+     */
+
+    public $file;
+
+    /**
+     * The request URI.
+     *
+     * @var string
+     */
+
+    public $uri;
+
+    /**
+     * The cache item identifier.
+     *
+     * @var string
+     */
+
+    public $id;
 }
