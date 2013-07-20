@@ -8,7 +8,7 @@ h2. Installing
 
 p. Using "Composer":http://getcomposer.org:
 
-bc. $ composer.phar require rah/rah_cache
+bc. $ composer require rah/rah_cache
 
 h2. Configuration
 
@@ -25,6 +25,6 @@ new Rah_Cache_Handler(
 
 h2. Changelog
 
-h3. Version 0.1.0 - upcoming
+h3. Version 0.1.0 - 2013/07/21
 
 * Initial release.
