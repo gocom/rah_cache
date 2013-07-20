@@ -24,7 +24,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-include_once './Config.php';
+include_once dirname(__FILE__).'/Config.php';
 
 /**
  * Cache handler.
