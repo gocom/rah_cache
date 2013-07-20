@@ -1,43 +1,34 @@
 <?php
 
-/**
- * Rah_cache plugin for Textpattern CMS.
+/*
+ * rah_cache - Full page cache plugin for Textpattern CMS
+ * https://github.com/gocom/rah_cache
  *
- * @author  Jukka Svahn
- * @license GNU GPLv2
- * @link    https://github.com/gocom/rah_cache
- * 
- * Copyright (C) 2013 Jukka Svahn http://rahforum.biz
- * Licensed under GNU General Public License version 2
- * http://www.gnu.org/licenses/gpl-2.0.html
- */
-
-/**
- * A tag to control caching on a page basis.
+ * Copyright (C) 2013 Jukka Svahn
  *
- * @param  array $atts
- * @return string
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
-function rah_cache($atts)
-{
-    global $rah_cache;
-
-    extract(lAtts(array(
-        'ignore' => 0,
-    ), $atts));
-
-    if ($ignore)
-    {
-        $rah_cache['file'] = null;
-    }
-}
 
 /**
  * Cache handler.
  */
 
-class rah_cache
+class Rah_Cache
 {
     /**
      * Stores sent HTTP response headers.
@@ -48,14 +39,55 @@ class rah_cache
     protected $headers = array();
 
     /**
+     * The request.
+     *
+     * @var Rah_Cache_Request
+     */
+
+    protected $request;
+
+    /**
+     * The config.
+     *
+     * @var Rah_Cache_Config
+     */
+
+    protected $config;
+
+    /**
      * Constructor.
      */
 
     public function __construct()
     {
-        global $event;
-        register_callback(array($this, 'store'), 'textpattern_end');
-        register_callback(array($this, 'update_lastmod'), $event ? $event : 'textpattern_end');
+        if (class_exists('Rah_Cache_Handler'))
+        {
+            global $event;
+            $this->config = Rah_Cache_Handler::$config;
+            $this->request =  Rah_Cache_Handler::$request;
+            register_callback(array($this, 'store'), 'textpattern_end');
+            register_callback(array($this, 'update_lastmod'), $event ? $event : 'textpattern_end');
+            Textpattern_Tag_Registry:register(array($this, 'controller'), 'rah_cache');
+        }
+    }
+
+    /**
+     * A tag to control caching on a page basis.
+     *
+     * @param  array $atts
+     * @return string
+     */
+
+    public function controller($atts)
+    {
+        extract(lAtts(array(
+            'ignore' => 0,
+        ), $atts));
+
+        if ($ignore)
+        {
+            $this->request->file = null;
+        }
     }
 
     /**
@@ -84,22 +116,17 @@ class rah_cache
      */
 
     public function store()
-    {   
-        global $rah_cache;
-
-        if (empty($rah_cache['file']) || get_pref('production_status') != 'live')
+    {
+        if (empty($this->request->file) || get_pref('production_status') != 'live')
         {
             return;
         }
 
-        if (!empty($rah_cache['skip']))
+        foreach ($this->config->skipPaths as $path)
         {
-            foreach ((array) $rah_cache['skip'] as $pattern)
+            if (strpos($this->request->uri, $path) === 0)
             {
-                if (strpos($rah_cache['request_uri'], $pattern) === 0)
-                {
-                    return;
-                }
+                return;
             }
         }
 
@@ -125,7 +152,7 @@ class rah_cache
             return;
         }
 
-        file_put_contents($rah_cache['file'], $page);
+        file_put_contents($this->request->file, $page);
 
         if (function_exists('gzcompress'))
         {
@@ -136,7 +163,7 @@ class rah_cache
             $data = "\x1f\x8b\x08\x00\x00\x00\x00\x00".$data;
             $data .= pack('V', $crc);
             $data .= pack('V', $size);
-            file_put_contents($rah_cache['file'].'.gz', $data);
+            file_put_contents($this->request->file.'.gz', $data);
         }
 
         callback_event('rah_cache.created');
@@ -159,4 +186,4 @@ class rah_cache
     }
 }
 
-new rah_cache();
+new Rah_Cache();
