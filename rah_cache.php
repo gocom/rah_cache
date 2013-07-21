@@ -140,7 +140,10 @@ class Rah_Cache
 
         $page = ob_get_contents();
 
-        if (($r = callback_event('rah_cache.store', '', 0, array('contents' => $page))) !== '')
+        if (($r = callback_event('rah_cache.store', '', 0, array(
+            'contents' => $page,
+            'headers'  => $this->headers,
+        ))) !== '')
         {
             $page = $r;
         }
