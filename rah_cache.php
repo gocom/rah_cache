@@ -174,9 +174,12 @@ class Rah_Cache
     {
         if ($this->config->directory)
         {
-            file_put_contents(
-                $this->config->directory . '/_lastmod.rah', strtotime(get_pref('lastmod', 'now', true))
-            );
+            $lastmod = $this->config->directory . '/_lastmod.rah';
+
+            if (!is_file($lastmod) || file_get_contents($lastmod) !== get_pref('lastmod', false, true))
+            {
+                file_put_contents($lastmod, get_pref('lastmod', '', true));
+            }
         }
     }
 }

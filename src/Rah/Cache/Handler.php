@@ -91,20 +91,19 @@ class Rah_Cache_Handler
         $md5 = md5($request_uri);
         $filename = $file = $config->directory . '/' . $md5 . '.rah';
         $encoding = $this->encoding();
+        $lastmod = $config->directory . '/_lastmod.rah';
 
         if ($encoding)
         {
             $filename = $file . '.gz';
         }
 
-        if (file_exists($filename))
+        if (file_exists($filename) && file_exists($lastmod))
         {
             $modified = filemtime($filename);
+            $lastmod = filemtime($lastmod);
 
-            if (
-                $modified > time()-2592000 && 
-                $modified >= (int) @file_get_contents($config->directory . '/_lastmod.rah')
-            )
+            if ($modified > time()-2592000 && $modified >= $lastmod)
             {
                 header('Content-type: text/html; charset=utf-8');
 
