@@ -30,7 +30,7 @@ p. Place the above to your configuration file (@textpattern/config.php@).
 
 h2. Changelog
 
-h3. Version 0.2.0 - upcoming
+h3. Version 0.2.0 - 2013/07/21
 
 * Added: Pass HTTP headers to @rah_cache.store@ event handlers.
 
