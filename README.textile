@@ -30,6 +30,10 @@ p. Place the above to your configuration file (@textpattern/config.php@).
 
 h2. Changelog
 
+h3. Version 0.1.1 - 2013/07/21
+
+* Fixed: Issue with timezone offsets.
+
 h3. Version 0.1.0 - 2013/07/21
 
 * Initial release.
