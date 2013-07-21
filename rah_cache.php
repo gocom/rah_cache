@@ -96,17 +96,15 @@ class Rah_Cache
 
     protected function get_headers()
     {
-        if (!function_exists('header_list') || !header_list())
+        if (function_exists('headers_list') && $headers = headers_list())
         {
-            return;
-        }
-
-        foreach ((array) header_list() as $header)
-        {
-            if (strpos($header, ':'))
+            foreach ((array) $headers as $header)
             {
-                $header = explode(':', strtolower($header), 2);
-                $this->headers[trim($header[0])] = trim($header[1]);
+                if (strpos($header, ':'))
+                {
+                    $header = explode(':', strtolower($header), 2);
+                    $this->headers[trim($header[0])] = trim($header[1]);
+                }
             }
         }
     }
