@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-0": {
-          "Rah_Cache_": "src/"
+            "Rah_Cache_": "src/"
         }
     },
     "require-dev": {
