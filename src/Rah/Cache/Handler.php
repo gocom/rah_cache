@@ -1,27 +1,24 @@
 <?php
 
 /*
- * rah_cache - Full page cache plugin for Textpattern CMS
+ * rah_cache - Full page cache for Textpattern CMS
  * https://github.com/gocom/rah_cache
  *
- * Copyright (C) 2013 Jukka Svahn
+ * Copyright (C) 2019 Jukka Svahn
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * This file is part of rah_cache.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * rah_cache is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, version 2.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * rah_cache is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with rah_cache. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -40,49 +37,41 @@
  *
  * new Rah_Cache_Handler(new My_App_Cache_Config());
  */
-
-class Rah_Cache_Handler
+final class Rah_Cache_Handler
 {
     /**
      * The config.
      *
      * @var Rah_Cache_Config
      */
-
-    static public $config;
+    public static $config;
 
     /**
      * The request.
      *
      * @var Rah_Cache_Request
      */
-
-    static public $request;
+    public static $request;
 
     /**
      * Constructor.
      *
      * @param array $opt Options
      */
-
     public function __construct(Rah_Cache_Config $config)
     {
         self::$config = $config;
 
-        if (txpinterface !== 'public' || !empty($_POST))
-        {
+        if (txpinterface !== 'public' || !empty($_POST)) {
             return;
         }
 
-        if ($config->queryString === false && empty($_GET) === false)
-        {
+        if ($config->queryString === false && empty($_GET) === false) {
             return;
         }
 
-        foreach ($config->skipCookies as $name)
-        {
-            if (isset($_COOKIE[$name]))
-            {
+        foreach ($config->skipCookies as $name) {
+            if (isset($_COOKIE[$name])) {
                 return;
             }
         }
@@ -93,22 +82,18 @@ class Rah_Cache_Handler
         $encoding = $this->encoding();
         $lastmod = $config->directory . '/_lastmod.rah';
 
-        if ($encoding)
-        {
+        if ($encoding) {
             $filename = $file . '.gz';
         }
 
-        if (file_exists($filename) && file_exists($lastmod))
-        {
+        if (file_exists($filename) && file_exists($lastmod)) {
             $modified = filemtime($filename);
             $lastmod = filemtime($lastmod);
 
-            if ($modified > time()-2592000 && $modified >= $lastmod)
-            {
+            if ($modified > time()-2592000 && $modified >= $lastmod) {
                 header('Content-type: text/html; charset=utf-8');
 
-                if ($encoding)
-                {
+                if ($encoding) {
                     header('Content-Encoding: '.$encoding);
                 }
 
@@ -116,8 +101,7 @@ class Rah_Cache_Handler
             }
         }
 
-        if (!file_exists($config->directory) || !is_dir($config->directory) || !is_writeable($config->directory))
-        {
+        if (!file_exists($config->directory) || !is_dir($config->directory) || !is_writeable($config->directory)) {
             return;
         }
 
@@ -132,104 +116,22 @@ class Rah_Cache_Handler
      *
      * @return bool
      */
-
     public function encoding()
     {
-        if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) || headers_sent())
-        {
+        if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) || headers_sent()) {
             return false;
         }
 
         $accept_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
 
-        if (strpos($accept_encoding, 'x-gzip') !== false)
-        {
+        if (strpos($accept_encoding, 'x-gzip') !== false) {
             return 'x-gzip';
         }
 
-        if (strpos($accept_encoding, 'gzip') !== false)
-        {
+        if (strpos($accept_encoding, 'gzip') !== false) {
             return 'gzip';
         }
 
         return false;
     }
-}
-
-/**
- * Configuration options.
- */
-
-class Rah_Cache_Config
-{
-    /**
-     * Path to the cache directory.
-     *
-     * @var string
-     */
-
-    public $directory = './../cache';
-
-    /**
-     * An array of skipped paths.
-     *
-     * @var array
-     */
-
-    public $skipPaths = array('file_download/');
-
-    /**
-     * An array of cookies that disable caching.
-     *
-     * @var array
-     */
-
-    public $skipCookies = array('txp_login_public');
-
-    /**
-     * An array of skip query strings.
-     *
-     * @var array
-     */
-
-    public $skipParams = array('');
-
-    /**
-     * Whether cache requests with a HTTP query string
-     *
-     * @var bool
-     */
-
-    public $queryString = false;
-}
-
-/**
- * The request.
- */
-
-class Rah_Cache_Request
-{
-    /**
-     * The cache item filename.
-     *
-     * @var string
-     */
-
-    public $file;
-
-    /**
-     * The request URI.
-     *
-     * @var string
-     */
-
-    public $uri;
-
-    /**
-     * The cache item identifier.
-     *
-     * @var string
-     */
-
-    public $id;
 }

@@ -1,30 +1,27 @@
 h1. rah_cache
 
-p. Rah_cache is a very simple, experimental caching plugin for "Textpattern CMS":http://textpattern.com. It caches Texpattern's dynamic pages as flat files.
+"Packagist":https://packagist.org/packages/rah/rah_cache | "Issues":https://github.com/gocom/rah_cache/issues
 
-p. As of now the plugin is very simple, and is intended as a building block rather than full caching suite. Among many missing features, it doesn't do any cache management, or flushing. It doesn't check if site's content is newer than cache. Instead, it just writes pages to cache, and serves pages. Rest is up to the two callbacks the plugin comes with.
+Rah_cache is a simple, experimental full-page caching plugin for "Textpattern CMS":https://textpattern.com. It caches Texpattern's dynamic pages as flat files, and is intended as a building block rather than full caching suite. Among many missing features, it doesn't do any cache management, or flushing. It doesn't check if site's content is newer than cache. Instead, it just writes pages to cache, and serves pages. Rest is up to the two callbacks the plugin comes with.
 
-h2. Installing
+h2. Install
 
-p. Using "Composer":http://getcomposer.org:
+p. Using "Composer":https://getcomposer.org:
 
 bc. $ composer require rah/rah_cache
 
-h2. Configuration
+h2. Configure
 
-p. Configuration happens through your config.php. The plugin comes with @Rah_Cache_Config@ class which you will be using to configure the plugin, and @Rah_Cache_Handler@ that handles the cache. To configure the plugin extend or create a new instance of @Rah_Cache_Config@ and pass it to @Rah_Cache_Handler@:
+p. Configuration happens through your @config.php@, located in @textpattern@ install directory. The plugin comes with @Rah_Cache_Config@ class which you will be using to configure the plugin, and @Rah_Cache_Handler@ that handles the cache. To configure the plugin extend or create a new instance of @Rah_Cache_Config@ and pass it to @Rah_Cache_Handler@:
 
-bc.. if (!class_exists('Rah_Cache_Handler'))
+bc.. require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+
+class My_Site_Cache_Config extends \Rah_Cache_Config
 {
-    include txpath . '/../../vendor/rah/rah_cache/src/Rah/Cache/Handler.php';
-
-    class My_Site_Cache_Config extends Rah_Cache_Config
-    {
-        public $path = '/path/to/your/write/able/cache/directory';
-    }
-
-    new Rah_Cache_Handler(new My_Site_Cache_Config);
+    public $path = '/path/to/your/write/able/cache/directory';
 }
+
+new \Rah_Cache_Handler(new \My_Site_Cache_Config);
 
 p. Place the above to your configuration file (@textpattern/config.php@).
 
