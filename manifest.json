@@ -1,11 +1,11 @@
 {
-    "name"        : "rah_cache",
-    "description" : "Cache Textpattern's dynamic pages as flat files",
-    "version"     : "0.2.0",
-    "type"        : 5,
-    "author"      : "Jukka Svahn",
-    "author_uri"  : "http://rahforum.biz",
-    "order"       : 5,
-    "flags"       : 0,
-    "help"        : {"file" : ["./README.textile"]}
+    "name": "rah_cache",
+    "description": "Cache Textpattern's dynamic pages as flat files",
+    "version": "0.2.0",
+    "type": 5,
+    "author": "Jukka Svahn",
+    "author_uri": "https://rahforum.biz",
+    "order": 5,
+    "flags": 0,
+    "help": {"file": ["./README.textile"]}
 }
